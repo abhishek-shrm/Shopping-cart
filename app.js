@@ -2,6 +2,8 @@ var express=require('express');
 var path=require('path');
 var mongoose=require('mongoose');
 var config=require('./config/database');
+var pages=require('./routes/pages');
+var adminPages=require('./routes/adminPages');
 var app=express();
 
 mongoose.connect(config.database,{useNewUrlParser:true});
@@ -16,11 +18,8 @@ app.set('view engine','ejs');
 
 app.use(express.static(path.join(__dirname,'public')));
 
-app.get('/',(req,res)=>{
-  res.render('index.ejs',{
-    title:'Home'
-  });
-});
+app.use('/',pages);
+app.use('/admin/pages',adminPages);
 
 var port=3000;
 app.listen(port,function(){
