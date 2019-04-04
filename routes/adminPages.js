@@ -6,7 +6,11 @@ module.exports=router;
 
 //GET page index
 router.get('/',(req,res)=>{
-  res.send('Admin area');
+  Page.find({}).sort({sorting:1}).exec((err,pages)=>{
+    res.render('admin/pages',{
+      pages:pages
+    });
+  });
 });
 
 //GET add page
@@ -59,7 +63,7 @@ router.post('/add-page',(req,res)=>{
           title:title,
           slug:slug,
           content:content,
-          sorting:0
+          sorting:100
         });
         page.save(err=>{
           if(err){
