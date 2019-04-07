@@ -52,9 +52,9 @@ app.use(function (req, res, next) {
 
 app.use(session({
   secret: 'keyboard cat',
-  resave: false,
+  resave: true,
   saveUninitialized: true,
-  cookie: { secure: true }
+  // cookie: { secure: true }
 }));
 
 
