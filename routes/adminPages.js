@@ -30,7 +30,6 @@ router.get('/add-page', (req, res) => {
 
 //POST add page
 
-//GET add page
 router.post('/add-page', (req, res) => {
   req.checkBody('title', 'Title must not be empty').notEmpty();
   req.checkBody('content', 'Content must not be empty').notEmpty();
@@ -103,10 +102,8 @@ router.post('/reorder-pages', (req, res) => {
 });
 
 //GET edit page
-router.get('/edit-page/:slug', (req, res) => {
-  Page.findOne({
-    slug: req.params.slug
-  }, (err, page) => {
+router.get('/edit-page/:id', (req, res) => {
+  Page.findById(req.params.id, (err, page) => {
     if (err) {
       console.log(err);
     }else{
@@ -120,7 +117,7 @@ router.get('/edit-page/:slug', (req, res) => {
 });
 
 //POST edit page
-router.post('/edit-page/:slug',(req,res)=>{
+router.post('/edit-page/:id',(req,res)=>{
   req.checkBody('title','Title must not be empty').notEmpty();
   req.checkBody('content','Content must not be empty').notEmpty();
   
@@ -129,7 +126,7 @@ router.post('/edit-page/:slug',(req,res)=>{
   if(slug=="")
     slug=req.body.title.replace(/\s+/g,'-').toLowerCase();
   var content=req.body.content;
-  var id=req.body.id;
+  var id=req.params.id;
 
   var errors=req.validationErrors();
 
@@ -169,7 +166,7 @@ router.post('/edit-page/:slug',(req,res)=>{
               }
               else{
                 req.flash('success','Page edited successfully');
-                res.redirect('/admin/pages/edit-page/'+page.slug);
+                res.redirect('/admin/pages/edit-page/'+page.id);
               }
             });
           }

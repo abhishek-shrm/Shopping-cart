@@ -4,6 +4,7 @@ var mongoose=require('mongoose');
 var config=require('./config/database');
 var pages=require('./routes/pages');
 var adminPages=require('./routes/adminPages');
+var adminCategories=require('./routes/adminCategories');
 var bodyParser=require('body-parser');  
 var session=require('express-session');
 var expressValidator=require('express-validator');
@@ -61,6 +62,7 @@ app.use(session({
 
 app.use('/',pages);
 app.use('/admin/pages',adminPages);
+app.use('/admin/categories',adminCategories);
 
 var port=3000;
 app.listen(port,function(){
