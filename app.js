@@ -5,9 +5,11 @@ var config=require('./config/database');
 var pages=require('./routes/pages');
 var adminPages=require('./routes/adminPages');
 var adminCategories=require('./routes/adminCategories');
+var adminProducts=require('./routes/adminProducts');
 var bodyParser=require('body-parser');  
 var session=require('express-session');
 var expressValidator=require('express-validator');
+var fileUpload=require('express-fileupload');
 var app=express();
 
 mongoose.connect(config.database,{useNewUrlParser:true});
@@ -21,6 +23,7 @@ app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
 
 app.use(express.static(path.join(__dirname,'public'))); 
+app.use(fileUpload());
 
 //set global error variable
 app.locals.errors=null;
@@ -42,6 +45,23 @@ app.use(expressValidator({
       msg   : msg,
       value : value
     };
+  },
+  customValidators:{
+    isImage:function(value,filename){
+      var extension=(path.extname(filename)).toLowerCase();
+      switch(extension){
+        case '.jpg':
+          return '.jpg';
+        case '.jpeg':
+          return '.jpeg';
+        case '.png':
+          return '.png';
+        case '':
+          return '.jpg';
+        default:
+          return false;
+      }
+    }
   }
 }));
 
@@ -63,6 +83,7 @@ app.use(session({
 app.use('/',pages);
 app.use('/admin/pages',adminPages);
 app.use('/admin/categories',adminCategories);
+app.use('/admin/products',adminProducts);
 
 var port=3000;
 app.listen(port,function(){
