@@ -10,15 +10,10 @@ module.exports = router;
 
 //GET products index
 router.get('/', (req, res) => {
-  var count;
-  Product.countDocuments((err,c)=>{
-    count=c;
-  });
   Product.find((err,products)=>{
     res.render('admin/products',{
       products:products,
-      count:count
-    });
+      });
   });
 });
 
@@ -41,8 +36,16 @@ router.get('/add-product', (req, res) => {
 //POST add products
 
 router.post('/add-product', (req, res) => {
+  
+  var imageFile;
 
-  var imageFile= typeof req.files.image != "undefined"? req.files.image.name : "";
+  if(req.files!=null){
+    imageFile=req.files.image.name;
+  }
+  else if(req.files==null){
+    imageFile="";
+  }
+
 
   req.checkBody('title', 'Title must not be empty').notEmpty();
   req.checkBody('desc', 'Descrition must not be empty').notEmpty();
@@ -99,21 +102,29 @@ router.post('/add-product', (req, res) => {
           } else {
 
             mkdirp('public/product_images/'+product._id,err=>{
+              if(err){
               return console.log(err);
+              }
             });
             mkdirp('public/product_images/'+product._id+'/gallery',err=>{
-              return console.log(err);
+              if(err){
+                return console.log(err);
+              }
             });
             mkdirp('public/product_images/'+product._id+'/gallery/thumbs',err=>{
-              return console.log(err);
+              if(err){
+                return console.log(err);
+              }
             });
 
             if(imageFile != ""){
               var productImage=req.files.image;
               var path='public/product_images/'+product._id+'/'+imageFile;
               productImage.mv(path,err=>{
-                return console.log(err);
-              })
+                if(err){
+                  return console.log(err);
+                }
+              });
             }
 
             req.flash('success', 'Product added');
@@ -126,26 +137,6 @@ router.post('/add-product', (req, res) => {
 
 });
 
-router.post('/reorder-pages', (req, res) => {
-  var ids = req.body['id'];
-  var count = 0;
-
-  for (var i = 0; i < ids.length; i++) {
-    var id = ids[i];
-    count++;
-    (function (count) {
-      Page.findById(id, (err, page) => {
-        page.sorting = count;
-        page.save(err => {
-          if (err) {
-            return console.log(err);
-          }
-        });
-      });
-    })(count);
-
-  }
-});
 
 //GET edit page
 router.get('/edit-page/:id', (req, res) => {

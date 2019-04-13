@@ -1,5 +1,6 @@
 var mongoose=require('mongoose');
 
+//product Schema
 var productSchema=mongoose.Schema({
   title:{
     type:String,

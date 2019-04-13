@@ -2,7 +2,7 @@
   <h2 class="page-title">Products</h2>
   <a href="../admin/products/add-product" class="btn btn-primary">Add a new product</a>
   <br><br>
-  <%if(count>0){%>
+  <%if(Object.keys(products).length>0){%>
   <table class="table table-striped">
     <thead>
       <tr class="home">
@@ -22,9 +22,9 @@
           <td><%=product.category%></td>
           <td>
               <%if(product.image==""){%>
-                <img src="/images/noimage.png" alt="No image">
+                <img id="noimage" src="/images/noimage.png" alt="No image">
               <%}else{%>
-                <img src="/product_images/<%=product.id%>/<%=product.image%>">
+                <img id="noimage" src="/product_images/<%=product.id%>/<%=product.image%>">
               <%}%>
           </td>
           <td><a href="/admin/products/edit-product/<%=product._id%>">Edit</a></td>

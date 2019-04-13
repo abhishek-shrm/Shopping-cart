@@ -5,13 +5,13 @@
   <form action="/admin/products/add-product" method="POST" enctype="multipart/form-data">
     <div class="form-group">
       <label for="">Title</label>
-      <input type="text" class="form-control" name="title" value="<%=title%>" placeholder="Title">
+      <input type="text" class="form-control" name="title" value="<%= title %>" placeholder="Title">
       <label for="">Description</label>
-      <textarea name="desc" class="form-control" cols="30" rows="10" placeholder="Description"><%=desc%></textarea>
+      <textarea name="desc" class="form-control" cols="30" rows="10" placeholder="Description"><%= desc %></textarea>
       <label for="">Category</label>
       <select name="category" class="form-control">
         <%categories.forEach(cats=>{%>
-          <option value="<%=cats.slug%>"><%=cats.title%></option>
+          <option value="<%=cats.slug%>"><%= cats.title %></option>
         <%});%>
       </select>
       <label for="">Price</label>
