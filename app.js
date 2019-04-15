@@ -28,6 +28,21 @@ app.use(fileUpload());
 //set global error variable
 app.locals.errors=null;
 
+//Get page model
+var Page=require('./models/pages');
+
+//Get all pages to pass to header.ejs
+Page.find({}).sort({
+  sorting: 1
+}).exec((err, pages) => {
+  if(err){
+    console.log(err);
+  }
+  else{
+    app.locals.pages=pages;
+  }
+});
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
