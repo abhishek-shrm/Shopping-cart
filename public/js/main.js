@@ -9,4 +9,8 @@ $(function () {
       return false;
   });
 
+  if($("[data-fancybox]").length){
+    $("[data-fancybox]").fancybox();
+  }
+
 });

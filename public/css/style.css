@@ -1,0 +1,32 @@
+div.products{
+  margin-top: 40px;
+}
+
+div.category{
+  margin-top: 40px;
+}
+
+img.pimage{
+  width: 160px;
+  height: 160px;
+}
+
+a.pa{
+  display: inline-block;
+  height: 160px;
+}
+
+.row.products.p{
+  margin-top:20px;
+  margin-bottom:20px;
+}
+
+img.spi{
+  width: 100%;
+}
+
+ul.gallery li{
+  display: inline-block;
+  margin: 20px;
+  list-style: none;
+}

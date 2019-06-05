@@ -3,6 +3,7 @@ var path=require('path');
 var mongoose=require('mongoose');
 var config=require('./config/database');
 var pages=require('./routes/pages');
+var products=require('./routes/products.js');
 var adminPages=require('./routes/adminPages');
 var adminCategories=require('./routes/adminCategories');
 var adminProducts=require('./routes/adminProducts');
@@ -40,6 +41,19 @@ Page.find({}).sort({
   }
   else{
     app.locals.pages=pages;
+  }
+});
+
+//Get category model
+var Category=require('./models/category');
+
+//Get all categories to pass to header.ejs
+Category.find((err, categories) => {
+  if(err){
+    console.log(err);
+  }
+  else{
+    app.locals.categories=categories;
   }
 });
 
@@ -94,11 +108,12 @@ app.use(session({
 }));
 
 
-
+app.use('/products',products);
 app.use('/',pages);
 app.use('/admin/pages',adminPages);
 app.use('/admin/categories',adminCategories);
 app.use('/admin/products',adminProducts);
+
 
 var port=3000;
 app.listen(port,function(){
