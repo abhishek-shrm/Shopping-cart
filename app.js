@@ -4,6 +4,7 @@ var mongoose=require('mongoose');
 var config=require('./config/database');
 var pages=require('./routes/pages');
 var products=require('./routes/products.js');
+var cart=require('./routes/cart');
 var adminPages=require('./routes/adminPages');
 var adminCategories=require('./routes/adminCategories');
 var adminProducts=require('./routes/adminProducts');
@@ -60,6 +61,13 @@ Category.find((err, categories) => {
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,//for workng of cart
+  saveUninitialized: true,
+  //cookie: { secure: true }
+}));
+
 app.use(expressValidator({
   errorFormatter: function(param, msg, value) {
       var namespace = param.split('.')
@@ -100,14 +108,14 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-  // cookie: { secure: true }
-}));
+
+app.get('*',function(req,res,next){
+  res.locals.cart=req.session.cart;
+  next();
+});
 
 
+app.use('/cart',cart);
 app.use('/products',products);
 app.use('/',pages);
 app.use('/admin/pages',adminPages);
