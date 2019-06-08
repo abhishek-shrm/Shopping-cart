@@ -5,6 +5,7 @@ var config=require('./config/database');
 var pages=require('./routes/pages');
 var products=require('./routes/products.js');
 var cart=require('./routes/cart');
+var users=require('./routes/users');
 var adminPages=require('./routes/adminPages');
 var adminCategories=require('./routes/adminCategories');
 var adminProducts=require('./routes/adminProducts');
@@ -12,6 +13,7 @@ var bodyParser=require('body-parser');
 var session=require('express-session');
 var expressValidator=require('express-validator');
 var fileUpload=require('express-fileupload');
+var passport=require('passport');
 var app=express();
 
 mongoose.connect(config.database,{useNewUrlParser:true});
@@ -108,14 +110,21 @@ app.use(function (req, res, next) {
   next();
 });
 
+//Passport Config
+require('./config/passport')(passport);
+//Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('*',function(req,res,next){
   res.locals.cart=req.session.cart;
+  res.locals.user=req.user||null;
   next();
 });
 
 
 app.use('/cart',cart);
+app.use('/users',users);
 app.use('/products',products);
 app.use('/',pages);
 app.use('/admin/pages',adminPages);

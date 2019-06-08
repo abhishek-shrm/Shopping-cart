@@ -34,7 +34,7 @@
           </li>
         <%}else{%>
           <li class="nav-item">
-              <a class="nav-link" href="<%=page.slug%>"><%=page.title%></a>
+              <a class="nav-link" href="/<%=page.slug%>"><%=page.title%></a>
           </li>
         <%}%>
        <% }); %>
@@ -49,12 +49,45 @@
             <%}%>
           )</a>
         </li>
+        <%if(user){%>
+          <li class="nav-item">
+              <a href="/users/logout" class="nav-link">
+                Hi, <%=user.username%> (Logout) <i class="fa fa-sign-out-alt"></i>
+              </a>
+            </li>
+        <%}else{%>
+          <li class="nav-item">
+              <a href="/users/register" class="nav-link">
+                Register <i class="fa fa-user-plus"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a href="/users/login" class="nav-link">
+                  Log In <i class="fa fa-user"></i>
+                </a>
+          </li>
+        <%}%>
+        <%if(user&&user.admin==1){%>
+          <li class="nav-item">
+              <a href="/admin/pages" target="_blank" class="nav-link">
+                Admin Area<i class="fa fa-users-cog"></i>
+              </a>
+            </li>
+        <%}%>
        </ul>
     </div>
   </nav>
 
 <div class="container">
     <%- messages('messages', locals) %>
+    <% if(errors){ %>
+      <% errors.forEach(err=>{ %>
+      <div class="alert alert-danger">
+        <%= err.msg %>
+      </div>
+      <% });%>
+    <% }%>
+    <br>
     
     <div class="row category">
       <div class="col-xs-12 col-md-3">

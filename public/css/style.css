@@ -1,3 +1,5 @@
+@import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
 div.products{
   margin-top: 40px;
 }
@@ -57,3 +59,13 @@ table.alignmiddle td{
   text-align: center;
 }
 
+.alert-error{
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  list-style: none;
+}
+
+.alert-danger{
+  list-style-type:none;
+}
