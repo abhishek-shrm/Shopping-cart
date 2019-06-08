@@ -108,5 +108,14 @@ router.get('/clear',(req,res)=>{
   delete req.session.cart;
   req.flash('success','Cart cleared!!!');
   res.redirect('/cart/checkout');
+  
+});
 
+//GET buynow
+
+router.get('/buynow',(req,res)=>{
+
+  delete req.session.cart;
+  res.sendStatus(200);
+  
 });
